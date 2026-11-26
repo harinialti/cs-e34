@@ -1,0 +1,32 @@
+kubectl version --client
+curl.exe -LO https://storage.googleapis.com/minikube/releases/latest/minikube-installer.exe : minikube
+minikube start --driver=docker
+
+dockerfile:
+FROM redis:latest
+CMD ["redis-server"]
+
+FROM nginx:latest
+COPY index.html /usr/share/nginx/html/index.html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+comp:
+version: "3.9"
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8065:80"
+    depends_on:
+      - redis
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo_db
+  redis:
+    image: redis:alpine
+
+
