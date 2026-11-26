@@ -1,15 +1,50 @@
 kubectl version --client
 curl.exe -LO https://storage.googleapis.com/minikube/releases/latest/minikube-installer.exe : minikube
+.\minikube-installer.exe
 minikube start --driver=docker
+minikube status
+kubectl get nodes
+kubectl create deployment mynginx --image=nginx
+kubectl get deployments
+kubectl expose deployment mynginx --type=NodePort --port=80
+kubectl get services
+minikube service mynginx
+kubectl scale deployment mynginx --replicas=4
+minikube dashboard
+kubectl delete service mynginx
+kubectl delete deployment mynginx
+kubectl get deployments
+kubectl get services
+minikube stop
+
+nagios:
+docker pull jasonrivers/nagios:latest
+docker images
+docker run -d --name nagios -p 8888:80 jasonrivers/nagios:latest
+docker ps
+//open web
+docker logs nagios
+//web and nagios web > checks
+docker stop nagios
+docker rm nagios
+
 
 dockerfile:
 FROM redis:latest
 CMD ["redis-server"]
+docker run --name myredisnew -d redisnew
+docker stop myredisnew
+docker commit <contID> <name/redis1>
+docker push YOUR_USERNAME/redis1:latest
+docker rm myredisnew
+docker stop myredisnew
 
 FROM nginx:latest
 COPY index.html /usr/share/nginx/html/index.html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
+docker build -t mynginx .
+docker run -d --name mynginx -p 9090:80 mynginx
 
 comp:
 version: "3.9"
